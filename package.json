@@ -123,7 +123,7 @@
     "less": "^4.1.1",
     "less-loader": "^8.0.0",
     "mini-css-extract-plugin": "^1.4.1",
-    "node-sass": "^5.0.0",
+    "node-sass": "^6.0.0",
     "nodemon": "^2.0.7",
     "sass": "^1.32.8",
     "sass-loader": "^11.0.1",

@@ -44,7 +44,7 @@ export default function UserDropdown({ open, closeDropdown }) {
           </Link>
         </li>
         <li className="dropdown-item">
-          <Link to="/settings" onClick={closeDropdown}>
+          <Link to="/app/settings" onClick={closeDropdown}>
             Settings
           </Link>
         </li>
