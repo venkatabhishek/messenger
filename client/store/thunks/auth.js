@@ -24,7 +24,7 @@ export const attemptLogin = user => dispatch =>
         },
       });
 
-      dispatch(push('/home'));
+      dispatch(push('/app'));
       return data;
     })
     .catch(dispatchError(dispatch));

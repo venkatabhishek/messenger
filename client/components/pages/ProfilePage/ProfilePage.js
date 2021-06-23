@@ -3,21 +3,20 @@ import { useDispatch, useSelector } from 'react-redux';
 import { push } from 'connected-react-router';
 import R from 'ramda';
 
-import Register from '_templates/RegisterSection';
+import { Button, Title, Container, Section } from 'react-bulma-companion';
 
-export default function RegisterPage() {
+export default function Profile() {
   const dispatch = useDispatch();
   const { user } = useSelector(R.pick(['user']));
 
-  useEffect(() => {
-    if (!R.isEmpty(user)) {
-      dispatch(push('/app'));
-    }
-  }, []);
 
   return (
-    <div className="register-page page">
-      <Register />
+    <div className="welcome-page page">
+      <Section>
+        <Container>
+          <Title>Profile</Title>
+        </Container>
+      </Section>
     </div>
   );
 }

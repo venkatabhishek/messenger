@@ -6,8 +6,9 @@
 @import 'modifiers';
 @import 'components';
 
-@import 'main';
+@import 'app';
 @import 'navigation';
+@import 'sidebar';
 @import 'footer';
 @import 'lost';
 
@@ -15,6 +16,5 @@
 @import 'login';
 @import 'register';
 
-@import 'home';
-@import 'todo';
+@import 'chat';
 @import 'settings';

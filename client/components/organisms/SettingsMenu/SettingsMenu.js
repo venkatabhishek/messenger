@@ -25,8 +25,8 @@ export default function SettingsMenu({ pathname }) {
         <Menu.List>
           <Menu.ListItem>
             <Menu.Link
-              onClick={() => dispatch(push('/settings/profile'))}
-              active={pathname.includes('profile') || pathname === '/settings' || pathname === '/settings/'}
+              onClick={() => dispatch(push('/app/settings/profile'))}
+              active={pathname.includes('profile') || pathname === '/app/settings' || pathname === '/app/settings/'}
             >
               Profile
             </Menu.Link>
@@ -38,7 +38,7 @@ export default function SettingsMenu({ pathname }) {
         <Menu.List>
           <Menu.ListItem>
             <Menu.Link
-              onClick={() => dispatch(push('/settings/account'))}
+              onClick={() => dispatch(push('/app/settings/account'))}
               active={pathname.includes('account')}
             >
               Account

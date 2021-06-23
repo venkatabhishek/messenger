@@ -34,8 +34,8 @@ export default function SettingsPage({ location }) {
             </Column>
             <Column>
               <Switch>
-                <Route path="/settings/profile/" component={ProfileSettings} />
-                <Route path="/settings/account/" component={AccountSettings} />
+                <Route path="/app/settings/profile/" component={ProfileSettings} />
+                <Route path="/app/settings/account/" component={AccountSettings} />
                 <Route path="*" component={ProfileSettings} />
               </Switch>
             </Column>
