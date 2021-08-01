@@ -7,9 +7,9 @@ import { login, logout } from '_actions/user';
 
 import { dispatchError } from '_utils/api';
 
-export const attemptLogin = user => dispatch =>
+export const attemptLogin = (user) => (dispatch) =>
   postLogin(user)
-    .then(data => {
+    .then((data) => {
       dispatch(login(snakeToCamelCase(data.user)));
 
       RNC.addNotification({
@@ -29,9 +29,9 @@ export const attemptLogin = user => dispatch =>
     })
     .catch(dispatchError(dispatch));
 
-export const attemptRegister = newUser => dispatch =>
+export const attemptRegister = (newUser) => (dispatch) =>
   postRegister(newUser)
-    .then(data => {
+    .then((data) => {
       RNC.addNotification({
         title: 'Success!',
         message: data.message,
@@ -49,9 +49,9 @@ export const attemptRegister = newUser => dispatch =>
     .then(() => dispatch(push('/app')))
     .catch(dispatchError(dispatch));
 
-export const attemptLogout = () => dispatch =>
+export const attemptLogout = () => (dispatch) =>
   postLogout()
-    .then(data => {
+    .then((data) => {
       dispatch(logout());
 
       RNC.addNotification({

@@ -30,20 +30,22 @@ export default function Main({ location }) {
     window.scrollTo(0, 0);
   }, [location.pathname]);
 
-  return !loading && (
-    <div>
-      <ReactNotification />
-      {/* <Navigation pathname={location.pathname} /> */}
-      <div className="main">
-        <Switch>
-          <Route exact path="/" component={WelcomePage} />
-          <Route path="/login" component={LoginPage} />
-          <Route path="/register" component={RegisterPage} />
-          <Route path="/app" component={AppPage} />
-          <Route path="*" component={LostPage} />
-        </Switch>
+  return (
+    !loading && (
+      <div>
+        <ReactNotification />
+        {/* <Navigation pathname={location.pathname} /> */}
+        <div className="main">
+          <Switch>
+            <Route exact path="/" component={WelcomePage} />
+            <Route path="/login" component={LoginPage} />
+            <Route path="/register" component={RegisterPage} />
+            <Route path="/app" component={AppPage} />
+            <Route path="*" component={LostPage} />
+          </Switch>
+        </div>
       </div>
-    </div>
+    )
   );
 }
 

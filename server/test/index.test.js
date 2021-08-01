@@ -6,11 +6,13 @@ describe('The Server', () => {
   const app = express();
   app.use('/', routes);
 
-  test('returns HTML on an unknown endpoint', done => {
+  test('returns HTML on an unknown endpoint', (done) => {
     request(app)
       .get('/*')
-      .expect(response => expect(response.header['content-type']).toContain('text/html'))
+      .expect((response) =>
+        expect(response.header['content-type']).toContain('text/html'),
+      )
       .then(() => done())
-      .catch(err => done(err));
+      .catch((err) => done(err));
   });
 });

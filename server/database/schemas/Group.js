@@ -4,27 +4,34 @@ const { Schema } = mongoose;
 
 // group or direct message
 const groupSchema = new Schema({
-    name: {
-        type: String
+  name: {
+    type: String,
+  },
+  owner: {
+    type: Schema.Types.ObjectId,
+    ref: 'User',
+  },
+  members: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'User',
     },
-    members: [{
-        type: Schema.Types.ObjectId,
-        ref: 'User'
-    }],
-    messages: {
-        type: [{
-            from: {
-                type: Schema.Types.ObjectId,
-                ref: 'User'
-            },
-            content: {
-                type: String
-            }
-        }],
-        default: []
-    }
+  ],
+  messages: {
+    type: [
+      {
+        from: {
+          type: Schema.Types.ObjectId,
+          ref: 'User',
+        },
+        content: {
+          type: String,
+        },
+      },
+    ],
+    default: [],
+  },
 });
-
 
 const Group = mongoose.model('Group', groupSchema);
 

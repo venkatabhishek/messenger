@@ -33,8 +33,8 @@ export default function ChangePassword() {
 
   const match = newPassword === confirmPassword;
 
-  const updateOldPassword = e => setOldPassword(e.target.value);
-  const updateConfirmPassword = e => setConfirmPassword(e.target.value);
+  const updateOldPassword = (e) => setOldPassword(e.target.value);
+  const updateConfirmPassword = (e) => setConfirmPassword(e.target.value);
 
   const handleValidatePassword = (username, password) => {
     const { valid, message } = validatePassword(username, password);
@@ -42,7 +42,7 @@ export default function ChangePassword() {
     setMessage(message);
   };
 
-  const updateNewPassword = e => {
+  const updateNewPassword = (e) => {
     setNewPassword(e.target.value);
     handleValidatePassword(user.username, e.target.value);
   };
@@ -63,14 +63,10 @@ export default function ChangePassword() {
 
   return (
     <Box className="change-password">
-      <Title size="3">
-        Change Password
-      </Title>
+      <Title size="3">Change Password</Title>
       <hr className="separator" />
       <Field>
-        <Label htmlFor="old-password">
-          Old Password
-        </Label>
+        <Label htmlFor="old-password">Old Password</Label>
         <Control>
           <Input
             id="old-password"
@@ -82,14 +78,10 @@ export default function ChangePassword() {
         </Control>
       </Field>
       <Block>
-        <Link to="/recovery">
-          Forgot your password?
-        </Link>
+        <Link to="/recovery">Forgot your password?</Link>
       </Block>
       <Field className="has-help">
-        <Label htmlFor="new-password">
-          New Password
-        </Label>
+        <Label htmlFor="new-password">New Password</Label>
         <Control iconsRight>
           <Input
             id="new-password"
@@ -100,21 +92,21 @@ export default function ChangePassword() {
             onChange={updateNewPassword}
           />
           {newPassword && (
-            <Icon size="small" align="right" color={valid ? 'success' : 'danger'}>
+            <Icon
+              size="small"
+              align="right"
+              color={valid ? 'success' : 'danger'}
+            >
               <FontAwesomeIcon icon={valid ? faCheck : faExclamationTriangle} />
             </Icon>
           )}
         </Control>
         {newPassword && (
-          <Help color={valid ? 'success' : 'danger'}>
-            {message}
-          </Help>
+          <Help color={valid ? 'success' : 'danger'}>{message}</Help>
         )}
       </Field>
       <Field className="has-help">
-        <Label htmlFor="confirm-password">
-          Confirm Password
-        </Label>
+        <Label htmlFor="confirm-password">Confirm Password</Label>
         <Control iconsRight>
           <Input
             id="confirm-password"
@@ -125,7 +117,11 @@ export default function ChangePassword() {
             onChange={updateConfirmPassword}
           />
           {confirmPassword && (
-            <Icon size="small" align="right" color={match ? 'success' : 'danger'}>
+            <Icon
+              size="small"
+              align="right"
+              color={match ? 'success' : 'danger'}
+            >
               <FontAwesomeIcon icon={match ? faCheck : faExclamationTriangle} />
             </Icon>
           )}

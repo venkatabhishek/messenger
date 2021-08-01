@@ -1,4 +1,4 @@
-import React, { useState, useEffect }  from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { push } from 'connected-react-router';
 import { useSelector, useDispatch } from 'react-redux';
@@ -27,15 +27,15 @@ export default function Navigation({ pathname }) {
 
   const closeDropdown = () => setOpen(false);
 
-  const isHome = (pathname.length === 5)
+  const isHome =    pathname.length === 5
     ? pathname === '/home'
     : R.slice(0, 6, pathname) === '/home/';
 
-  const isTodo = (pathname.length === 5)
+  const isTodo =    pathname.length === 5
     ? pathname === '/todo'
     : R.slice(0, 6, pathname) === '/todo/';
 
-  const isSettings = (pathname.length === 9)
+  const isSettings =    pathname.length === 9
     ? pathname === '/settings'
     : R.slice(0, 10, pathname) === '/settings/';
 
@@ -59,9 +59,7 @@ export default function Navigation({ pathname }) {
                 onClick={() => dispatch(push('/login'))}
                 link
               >
-                <Title size="6">
-                  Login
-                </Title>
+                <Title size="6">Login</Title>
               </Navbar.Item>
             )}
             {!auth && (
@@ -112,9 +110,7 @@ export default function Navigation({ pathname }) {
                 tab
                 link
               >
-                <Title size="6">
-                  Todo
-                </Title>
+                <Title size="6">Todo</Title>
               </Navbar.Item>
               <Navbar.Item
                 className="is-hidden-mobile"
@@ -123,13 +119,16 @@ export default function Navigation({ pathname }) {
                 tab
                 link
               >
-                <Title size="6">
-                  Settings
-                </Title>
+                <Title size="6">Settings</Title>
               </Navbar.Item>
             </Navbar.Start>
             <Navbar.End>
-              <Navbar.Item onClick={toggleDropdown} onKeyPress={toggleDropdown} hoverable link>
+              <Navbar.Item
+                onClick={toggleDropdown}
+                onKeyPress={toggleDropdown}
+                hoverable
+                link
+              >
                 <Image size="32x32">
                   <Image.Content
                     className="profile-img"
@@ -144,9 +143,7 @@ export default function Navigation({ pathname }) {
           <Navbar.Menu>
             <Navbar.End>
               <Navbar.Item onClick={() => dispatch(push('/login'))} link>
-                <Title size="6">
-                  Login
-                </Title>
+                <Title size="6">Login</Title>
               </Navbar.Item>
               <Navbar.Item onClick={() => dispatch(push('/register'))} link>
                 <Button color="success">Sign Up</Button>

@@ -12,7 +12,7 @@ export default function WelcomePage() {
   // redirect if logged in
   useEffect(() => {
     if (!R.isEmpty(user)) {
-      dispatch(push('/app/chat'));
+      dispatch(push('/app'));
     }
   }, []);
 
@@ -20,15 +20,9 @@ export default function WelcomePage() {
     <div className="welcome-page page">
       <Section>
         <Container>
-          <Button
-          onClick={() => dispatch(push('/login'))}>
-            Login
-          </Button>
+          <Button onClick={() => dispatch(push('/login'))}>Login</Button>
 
-          <Button
-          onClick={() => dispatch(push('/register'))}>
-            Register
-          </Button>
+          <Button onClick={() => dispatch(push('/register'))}>Register</Button>
         </Container>
       </Section>
     </div>

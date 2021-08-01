@@ -6,17 +6,17 @@ import { updateUser } from '_actions/user';
 
 import { dispatchError } from '_utils/api';
 
-export const attemptGetUser = () => dispatch =>
+export const attemptGetUser = () => (dispatch) =>
   getUser()
-    .then(data => {
+    .then((data) => {
       dispatch(updateUser(snakeToCamelCase(data.user)));
       return data.user;
     })
     .catch(dispatchError(dispatch));
 
-export const attemptUpdateUser = updatedUser => dispatch =>
+export const attemptUpdateUser = (updatedUser) => (dispatch) =>
   putUser(updatedUser)
-    .then(data => {
+    .then((data) => {
       dispatch(updateUser(snakeToCamelCase(data.user)));
 
       RNC.addNotification({
@@ -35,9 +35,9 @@ export const attemptUpdateUser = updatedUser => dispatch =>
     })
     .catch(dispatchError(dispatch));
 
-export const attemptUpdatePassword = passwordInfo => dispatch =>
+export const attemptUpdatePassword = (passwordInfo) => (dispatch) =>
   putUserPassword(passwordInfo)
-    .then(data => {
+    .then((data) => {
       RNC.addNotification({
         title: 'Success!',
         message: data.message,

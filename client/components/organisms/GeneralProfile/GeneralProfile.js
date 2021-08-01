@@ -50,59 +50,68 @@ export default function GeneralProfile() {
     resetState();
   }, [user.firstName, user.lastName, user.bio, user.profilePic]);
 
-  const updateFirstName = e => {
+  const updateFirstName = (e) => {
     if (validateName(e.target.value)) {
       setFirstName(e.target.value);
       setFirstNameEdited(true);
     }
   };
 
-  const updateLastName = e => {
+  const updateLastName = (e) => {
     if (validateName(e.target.value)) {
       setLastName(e.target.value);
       setLastNameEdited(true);
     }
   };
 
-  const updateBio = e => {
+  const updateBio = (e) => {
     setBio(e.target.value);
     setBioEdited(true);
   };
 
-  const updateProfilePic = e => {
+  const updateProfilePic = (e) => {
     setProfilePic(e.target.value);
     setProfilePicEdited(true);
   };
 
-  const refresh = () => dispatch(attemptGetUser())
-    .then(resetState)
-    .catch(R.identity);
+  const refresh = () =>
+    dispatch(attemptGetUser()).then(resetState).catch(R.identity);
 
   const save = () => {
     const updatedUser = {};
 
-    if (firstNameEdited) { updatedUser.first_name = firstName; }
-    if (lastNameEdited) { updatedUser.last_name = lastName; }
-    if (profilePicEdited) { updatedUser.profile_pic = profilePic; }
-    if (bioEdited) { updatedUser.bio = bio; }
+    if (firstNameEdited) {
+      updatedUser.first_name = firstName;
+    }
+    if (lastNameEdited) {
+      updatedUser.last_name = lastName;
+    }
+    if (profilePicEdited) {
+      updatedUser.profile_pic = profilePic;
+    }
+    if (bioEdited) {
+      updatedUser.bio = bio;
+    }
 
     if (!R.isEmpty(updatedUser)) {
-      dispatch(attemptUpdateUser(updatedUser))
-        .catch(R.identity);
+      dispatch(attemptUpdateUser(updatedUser)).catch(R.identity);
     }
   };
 
   const charactersRemaining = 240 - bio.length;
-  const edited = firstNameEdited || lastNameEdited || bioEdited || profilePicEdited;
+  const edited =    firstNameEdited || lastNameEdited || bioEdited || profilePicEdited;
 
   return (
     <Box className="general-profile">
-      <Icon size="medium" className="is-pulled-right" onClick={refresh} onKeyPress={refresh}>
+      <Icon
+        size="medium"
+        className="is-pulled-right"
+        onClick={refresh}
+        onKeyPress={refresh}
+      >
         <FontAwesomeIcon icon={faSync} size="lg" />
       </Icon>
-      <Title size="3">
-        General
-      </Title>
+      <Title size="3">General</Title>
       <hr className="separator" />
       <Columns>
         <Column size="4">
@@ -117,9 +126,7 @@ export default function GeneralProfile() {
             />
           </Image>
           <Field>
-            <Label htmlFor="profile-pic-url">
-              Picture URL
-            </Label>
+            <Label htmlFor="profile-pic-url">Picture URL</Label>
             <Control>
               <Input
                 id="profile-pic-url"
@@ -149,9 +156,7 @@ export default function GeneralProfile() {
             </Column>
             <Column size="6">
               <Field>
-                <Label htmlFor="last-name">
-                  Last Name
-                </Label>
+                <Label htmlFor="last-name">Last Name</Label>
                 <Control>
                   <Input
                     id="last-name"
@@ -164,9 +169,7 @@ export default function GeneralProfile() {
             </Column>
           </Columns>
           <Field>
-            <Label htmlFor="bio">
-              Bio
-            </Label>
+            <Label htmlFor="bio">Bio</Label>
             <Control>
               <Textarea
                 id="bio"
@@ -176,9 +179,7 @@ export default function GeneralProfile() {
                 onChange={updateBio}
               />
             </Control>
-            <Help>
-              {`Characters remaining: ${charactersRemaining}`}
-            </Help>
+            <Help>{`Characters remaining: ${charactersRemaining}`}</Help>
           </Field>
         </Column>
       </Columns>

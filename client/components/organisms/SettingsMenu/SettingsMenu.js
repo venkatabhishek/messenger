@@ -12,29 +12,27 @@ import { attemptLogout } from '_thunks/auth';
 export default function SettingsMenu({ pathname }) {
   const dispatch = useDispatch();
 
-  const logout = () =>
-    dispatch(attemptLogout())
-      .catch(R.identity);
+  const logout = () => dispatch(attemptLogout()).catch(R.identity);
 
   return (
     <Box>
       <Menu className="settings-menu">
-        <Menu.Label>
-          Personal
-        </Menu.Label>
+        <Menu.Label>Personal</Menu.Label>
         <Menu.List>
           <Menu.ListItem>
             <Menu.Link
               onClick={() => dispatch(push('/app/settings/profile'))}
-              active={pathname.includes('profile') || pathname === '/app/settings' || pathname === '/app/settings/'}
+              active={
+                pathname.includes('profile')
+                || pathname === '/app/settings'
+                || pathname === '/app/settings/'
+              }
             >
               Profile
             </Menu.Link>
           </Menu.ListItem>
         </Menu.List>
-        <Menu.Label>
-          Settings
-        </Menu.Label>
+        <Menu.Label>Settings</Menu.Label>
         <Menu.List>
           <Menu.ListItem>
             <Menu.Link

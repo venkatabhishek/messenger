@@ -9,7 +9,6 @@ export default function Profile() {
   const dispatch = useDispatch();
   const { user } = useSelector(R.pick(['user']));
 
-
   return (
     <div className="welcome-page page">
       <Section>

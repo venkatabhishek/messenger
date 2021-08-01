@@ -8,12 +8,8 @@ export default function Lost() {
   return (
     <Section className="lost-section">
       <Container>
-        <Title size="1">
-          404
-        </Title>
-        <p>
-          The page you requested was not found.
-        </p>
+        <Title size="1">404</Title>
+        <p>The page you requested was not found.</p>
       </Container>
     </Section>
   );

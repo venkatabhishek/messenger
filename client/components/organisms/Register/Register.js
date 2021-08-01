@@ -39,7 +39,7 @@ export default function Register() {
     setPasswordMessage(message);
   };
 
-  const checkUsername = newUsername => {
+  const checkUsername = (newUsername) => {
     const { valid, message } = validateUsername(newUsername);
 
     if (valid) {
@@ -47,7 +47,7 @@ export default function Register() {
       setUsernameAvailable(false);
 
       postCheckUsername(newUsername)
-        .then(res => {
+        .then((res) => {
           setUsernameAvailable(res.available);
           setUsernameMessage(res.message);
         })
@@ -58,17 +58,17 @@ export default function Register() {
     }
   };
 
-  const updateUsername = newUserName => {
+  const updateUsername = (newUserName) => {
     setUsername(newUserName);
     checkPassword(newUserName, password);
   };
 
-  const handleUsernameChange = e => {
+  const handleUsernameChange = (e) => {
     updateUsername(e.target.value);
     checkUsername(e.target.value);
   };
 
-  const handlePasswordChange = e => {
+  const handlePasswordChange = (e) => {
     setPassword(e.target.value);
     checkPassword(username, e.target.value);
   };
@@ -80,8 +80,7 @@ export default function Register() {
         password,
       };
 
-      dispatch(attemptRegister(newUser))
-        .catch(R.identity);
+      dispatch(attemptRegister(newUser)).catch(R.identity);
     }
   };
 
@@ -89,25 +88,21 @@ export default function Register() {
 
   return (
     <Box className="register">
-      <Title size="3">
-        Sign Up
-      </Title>
+      <Title size="3">Sign Up</Title>
       <hr className="separator" />
       <p className="has-space-below">
         Already a member?&nbsp;
-        <Link to="/login">
-          Login
-        </Link>
+        <Link to="/login">Login</Link>
       </p>
       <Field>
-        <Label htmlFor="username">
-          Username
-        </Label>
+        <Label htmlFor="username">Username</Label>
         <Control iconsRight>
           <Input
             id="username"
             placeholder="Username"
-            color={username ? (usernameAvailable ? 'success' : 'danger') : undefined}
+            color={
+              username ? (usernameAvailable ? 'success' : 'danger') : undefined
+            }
             value={username}
             onChange={handleUsernameChange}
           />
@@ -130,15 +125,15 @@ export default function Register() {
         )}
       </Field>
       <Field>
-        <Label htmlFor="password">
-          Password
-        </Label>
+        <Label htmlFor="password">Password</Label>
         <Control iconsRight>
           <Input
             id="password"
             placeholder="Password"
             type="password"
-            color={password ? (passwordValid ? 'success' : 'danger') : undefined}
+            color={
+              password ? (passwordValid ? 'success' : 'danger') : undefined
+            }
             value={password}
             onChange={handlePasswordChange}
           />
@@ -162,7 +157,11 @@ export default function Register() {
       </Field>
       <hr className="separator" />
       <div className="has-text-right">
-        <Button color="success" onClick={register} disabled={!passwordValid || !usernameAvailable}>
+        <Button
+          color="success"
+          onClick={register}
+          disabled={!passwordValid || !usernameAvailable}
+        >
           Create Account
         </Button>
       </div>

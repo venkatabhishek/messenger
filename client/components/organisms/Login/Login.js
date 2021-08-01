@@ -39,8 +39,7 @@ export default function Login() {
       localStorage.setItem('username', username);
     }
 
-    dispatch(attemptLogin(userCredentials))
-      .catch(R.identity);
+    dispatch(attemptLogin(userCredentials)).catch(R.identity);
   };
 
   useKeyPress('Enter', login);
@@ -50,20 +49,16 @@ export default function Login() {
     setRemember(!remember);
   };
 
-  const updateUsername = e => setUsername(e.target.value);
-  const updatePassword = e => setPassword(e.target.value);
+  const updateUsername = (e) => setUsername(e.target.value);
+  const updatePassword = (e) => setPassword(e.target.value);
 
   return (
     <Box className="login">
-      <Title size="3">
-        Login
-      </Title>
+      <Title size="3">Login</Title>
       <hr className="separator" />
       <Block>
         Not Registered Yet?&nbsp;
-        <Link to="/register">
-          Create an account.
-        </Link>
+        <Link to="/register">Create an account.</Link>
       </Block>
       <FormInput
         onChange={updateUsername}
@@ -79,9 +74,7 @@ export default function Login() {
         type="password"
       />
       <Block>
-        <Link to="/recovery">
-          Forgot your password?
-        </Link>
+        <Link to="/recovery">Forgot your password?</Link>
       </Block>
       <hr className="separator" />
       <Control className="is-clearfix">

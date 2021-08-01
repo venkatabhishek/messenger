@@ -20,9 +20,11 @@ config.optimization = {
   ],
 };
 
-config.plugins.push(new BundleAnalyzerPlugin({
-  analyzerMode: 'static',
-}));
+config.plugins.push(
+  new BundleAnalyzerPlugin({
+    analyzerMode: 'static',
+  }),
+);
 
 const MiniCssExtractPluginConfig = new MiniCssExtractPlugin({
   filename: '[name].[hash].css',
