@@ -12,9 +12,11 @@ import ChatPage from '_pages/ChatPage';
 import ProfilePage from '_pages/ProfilePage';
 import SettingsPage from '_pages/SettingsPage';
 
+import { getGroups } from '_thunks/group';
+
 export default function HomePage() {
   const dispatch = useDispatch();
-  const [open, setOpen] = useState(true); // group dialog
+  const [open, setOpen] = useState(false); // group dialog
   const { user } = useSelector(R.pick(['user']));
 
   useEffect(() => {
@@ -23,6 +25,7 @@ export default function HomePage() {
     }
 
     // get all groups for current user
+    dispatch(getGroups());
 
   }, []);
 

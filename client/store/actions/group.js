@@ -1,4 +1,4 @@
-const ADD_GROUP = 'ADD_GROUP';
+export const ADD_GROUP = 'ADD_GROUP';
 
 export function addGroup(data) {
   return {

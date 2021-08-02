@@ -8,6 +8,6 @@ export const createGroup = (data) =>
     .then(handleSuccess)
     .catch(handleError);
 
-    export const getGroups = (data) =>
-      requests
-        .get('/api/group/all')
+export const getGroups = () =>
+  request
+    .get('/api/group/all')

@@ -6,10 +6,19 @@ const router = express.Router();
 
 // get all of a users groups
 router.get('/all', requireAuth, (req, res) => {
-    
-    let { userId } = req.body;
 
-    groups
+    Group.find({
+        $or: [
+            { members: req.user },
+            { owner: req.user }
+        ]
+    }, (err, groups) => {
+        if(err) console.log(err)
+
+        console.log(groups)
+        res.send(groups)
+    })
+
 })
 
 // create a message group
@@ -21,7 +30,7 @@ router.post('/create', requireAuth, async (req, res) => {
     members = await members.reduce(async (acc, cur) => {
 
         let m = await User.findOne({ username: cur });
-        if(m){
+        if (m) {
             acc.push(m)
         }
         return acc;

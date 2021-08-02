@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 
 import PropTypes from 'prop-types';
 import Dialog from '@material-ui/core/Dialog';
-import { makeGroup } from '_thunks/group';
+import { createGroup } from '_thunks/group';
 
 export default function GroupDialog(props) {
   const { onClose, open } = props;
@@ -12,7 +12,7 @@ export default function GroupDialog(props) {
   const dispatch = useDispatch();
 
   const createGroup = () => {
-    dispatch(makeGroup({name, members: []}))
+    dispatch(createGroup({name, members: []}))
       .then(() => {
         onClose();
       }

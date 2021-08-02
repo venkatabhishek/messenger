@@ -1,17 +1,31 @@
 import { snakeToCamelCase } from 'json-style-converter/es5';
 import { store as RNC } from 'react-notifications-component';
 
-import { createGroup as reqGroup } from '_api/group';
-import { createGroup as actionGroup } from '_actions/group';
+import { createGroup as apiCreateGroup, getGroups as apiGetGroups } from '_api/group';
+import { addGroup } from '_actions/group';
 
 import { dispatchError } from '_utils/api';
 
-export const makeGroup = (data) => (dispatch) =>
-  reqGroup(data)
+export const getGroups = () => (dispatch) =>
+  apiGetGroups()
     .then((res) => {
-      console.log(res);
       const { body } = res;
-      dispatch(actionGroup(body));
+
+      for (let group of body) {
+        dispatch(addGroup(group));
+      }
+
+      return body;
+    })  
+    .catch((err) => {
+      console.log(err)
+    })
+
+export const createGroup = (data) => (dispatch) =>
+  apiCreateGroup(data)
+    .then((res) => {
+      const { body } = res;
+      dispatch(addGroup(body));
 
       RNC.addNotification({
         title: 'Successfully created a group!',
@@ -29,4 +43,3 @@ export const makeGroup = (data) => (dispatch) =>
     })
     .catch(dispatchError(dispatch));
 
-    
