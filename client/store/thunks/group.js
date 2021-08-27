@@ -28,8 +28,8 @@ export const createGroup = (data) => (dispatch) =>
       dispatch(addGroup(body));
 
       RNC.addNotification({
-        title: 'Successfully created a group!',
-        message: data.message,
+        title: 'Success!',
+        message: 'Created a new group!',
         type: 'success',
         container: 'top-right',
         animationIn: ['animated', 'fadeInRight'],

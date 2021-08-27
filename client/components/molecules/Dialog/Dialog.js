@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 
 import PropTypes from 'prop-types';
 import Dialog from '@material-ui/core/Dialog';
-import { createGroup } from '_thunks/group';
+import { createGroup as createGroupThunk } from '_thunks/group';
 
 export default function GroupDialog(props) {
   const { onClose, open } = props;
@@ -11,12 +11,16 @@ export default function GroupDialog(props) {
   const [name, setName] = useState('');
   const dispatch = useDispatch();
 
+  const closeDialog = () => {
+    onClose();
+    setView('');
+  }
+
   const createGroup = () => {
-    dispatch(createGroup({name, members: []}))
+    dispatch(createGroupThunk({name, members: []}))
       .then(() => {
-        onClose();
-      }
-      ).catch((e) => {
+        closeDialog();
+      }).catch((e) => {
         console.log(e);
       })
   };
@@ -62,6 +66,7 @@ export default function GroupDialog(props) {
       {view === 'join' && (
         <div className="container mx-6 my-6 is-flex is-justify-content-center is-flex-direction-column">
           <h1 className="is-size-2">Join a Group</h1>
+          <button className="button is-light my-4" type="button" onClick={closeDialog}>Join</button>
           <button className="button is-light my-4" type="button" onClick={() => setView('')}>Back</button>
         </div>
       )}

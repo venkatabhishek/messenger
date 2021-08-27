@@ -23,17 +23,20 @@ export const dispatchError = (dispatch) => (res) => {
     dispatch(push('/login'));
   }
 
-  RNC.addNotification({
-    title: `Error: ${res.status}`,
-    message: res.body.message,
-    type: 'danger',
-    container: 'top-right',
-    animationIn: ['animated', 'fadeInRight'],
-    animationOut: ['animated', 'fadeOutRight'],
-    dismiss: {
-      duration: 5000,
-    },
-  });
+  if(res.body.message){
+    RNC.addNotification({
+      title: `Error: ${res.status}`,
+      message: res.body.message,
+      type: 'danger',
+      container: 'top-right',
+      animationIn: ['animated', 'fadeInRight'],
+      animationOut: ['animated', 'fadeOutRight'],
+      dismiss: {
+        duration: 5000,
+      },
+    });
+  }
+
 
   throw res;
 };

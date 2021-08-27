@@ -6,6 +6,7 @@ const { Schema } = mongoose;
 const groupSchema = new Schema({
   name: {
     type: String,
+    unique: true
   },
   owner: {
     type: Schema.Types.ObjectId,

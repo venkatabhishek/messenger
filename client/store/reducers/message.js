@@ -1,5 +1,5 @@
 import update from 'immutability-helper';
-import { ADD_MESSAGE } from '_actions/message';
+import { ADD_MESSAGE, RESET_MESSAGES } from '_actions/message';
 
 export default function messages(state = [], action) {
   switch (action.type) {
@@ -19,6 +19,8 @@ export default function messages(state = [], action) {
 
       return update(state, { $push: [action.msg] });
 
+    case RESET_MESSAGES:
+      return []; 
     default:
       return state;
   }

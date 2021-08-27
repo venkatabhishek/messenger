@@ -15,7 +15,6 @@ router.get('/all', requireAuth, (req, res) => {
     }, (err, groups) => {
         if(err) console.log(err)
 
-        console.log(groups)
         res.send(groups)
     })
 
