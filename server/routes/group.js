@@ -53,6 +53,33 @@ router.post('/create', requireAuth, async (req, res) => {
 
 })
 
+router.post('/join', requireAuth, async (req, res) => {
+
+    let  { code } = req.body;
+
+    let group = await Group.findById(code);
+    if(!group){
+        return resError(res, 'Join Group', { message: 'Group does not exist' })
+    }
+
+    console.log(group)
+
+    // check if user is already in group
+    if (group.members.includes(req.user)) {
+        return resError(res, 'Join Group', { message: 'User already in group' })
+    }
+
+    group.members.push(req.user);
+    group.save((err, group) => {
+        if(err){
+            resError(res, 'Join member save', err);
+        } else {
+            res.send(group);
+        }
+    })
+
+})
+
 // add member to group
 router.post('/add', requireAuth, async (req, res) => {
 
@@ -69,7 +96,7 @@ router.post('/add', requireAuth, async (req, res) => {
     }
 
     // check if user is already in group
-    if (group.members.include(member)) {
+    if (group.members.includes(member)) {
         return resError(res, 'Add member', { message: 'User already in group' })
     }
 

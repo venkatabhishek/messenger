@@ -2,7 +2,6 @@ const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
-// group or direct message
 const groupSchema = new Schema({
   name: {
     type: String,
@@ -17,20 +16,6 @@ const groupSchema = new Schema({
       ref: 'User',
     },
   ],
-  messages: {
-    type: [
-      {
-        from: {
-          type: Schema.Types.ObjectId,
-          ref: 'User',
-        },
-        content: {
-          type: String,
-        },
-      },
-    ],
-    default: [],
-  },
 });
 
 const Group = mongoose.model('Group', groupSchema);

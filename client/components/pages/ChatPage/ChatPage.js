@@ -111,7 +111,9 @@ class Chat extends Component {
 
           {this.sortGroups(groups).map((g, i) => (
             <div className={"group" + (g.name === currentGroup ? " group-active" : "")} key={i} onClick={() => this.setGroup(g.name)}>
-              <div className="circle"></div>
+              <div className="circle">
+                <img src={`https://robohash.org/${encodeURIComponent(g.name)}.png`} alt="" />
+              </div>
               <div className="group-content">
                 <h3 className="is-size-4">{g.name}</h3>
                 <h4 className="is-size-6">{g.latest.text}</h4>

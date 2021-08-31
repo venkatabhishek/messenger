@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 
 import PropTypes from 'prop-types';
 import Dialog from '@material-ui/core/Dialog';
-import { createGroup as createGroupThunk } from '_thunks/group';
+import { createGroup as createGroupThunk, joinGroup as joinGroupThunk } from '_thunks/group';
 
 export default function GroupDialog(props) {
   const { onClose, open } = props;
@@ -24,6 +24,15 @@ export default function GroupDialog(props) {
         console.log(e);
       })
   };
+
+  const joinGroup = () => {
+    dispatch(joinGroupThunk({ code: name }))
+      .then(() => {
+        closeDialog();
+      }).catch((e) => {
+        console.log(e);
+      })
+  }
 
   return (
     <Dialog onClose={onClose} aria-labelledby="simple-dialog-title" open={open}>
@@ -74,11 +83,27 @@ export default function GroupDialog(props) {
       )}
 
       {view === 'join' && (
-        <div className="container mx-6 my-6 is-flex is-justify-content-center is-flex-direction-column">
-          <h1 className="is-size-2">Join a Group</h1>
-          <button className="button is-light my-4" type="button" onClick={closeDialog}>Join</button>
-          <button className="button is-light my-4" type="button" onClick={() => setView('')}>Back</button>
+        <>
+        <div className="container mx-6 my-6 is-flex is-justify-content-center is-align-items-center is-flex-direction-column">
+          <h1 className="is-size-3 has-text-weight-bold">Join a Group</h1>
+          <p className="subheader">Enter an invite below to join an existing group</p>
+          <div className="dialog-input-label">
+            <h5 className="is-size-5 has-text-weight-bold mb-3">Invite Code</h5>
+            <input
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              className="dialog-input"
+              type="text"
+              placeholder="hTKzmak..."
+            />
+          </div>
+
         </div>
+          <div className="dialog-footer">
+            <p className="dialog-back" onClick={() => setView('')}>Back</p>
+            <button className="dialog-submit" onClick={joinGroup}>Join</button>
+          </div>
+          </>
       )}
     </Dialog>
   );
