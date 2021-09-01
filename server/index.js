@@ -17,12 +17,13 @@ const app = express();
 
 const server = http.createServer(app);
 const io = new Server(server);
-require('./socket')(io);
+
 
 app.use(express.static(assetFolder));
 app.use(express.json());
 
-configPassport(app, express);
+configPassport(app, io);
+require('./socket')(io);
 
 app.use('/', routes);
 

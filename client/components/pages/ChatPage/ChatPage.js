@@ -4,6 +4,9 @@ import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 import ioclient from 'socket.io-client';
 import { addMessage, resetMessages } from '_actions/message';
+import { getMessages } from '_thunks/message';
+import moment from 'moment'
+
 
 class Chat extends Component {
   constructor(props) {
@@ -28,29 +31,14 @@ class Chat extends Component {
   // assumes each group's messages are sorted
   sortGroups(groups, mode) {
     
-    let mappedGroups = groups.map(g=>{
-
-      if(g.messages.length === 0){
-
-        g.latest = {
-          text: '',
-          date: ''
-        }
-
-      }else{
-
-        g.latest = g.messages[g.message.length - 1];
-
-      }
-
-
-      return g;
-    })
-
     if(mode === 'new'){
 
-      return mappedGroups.sort((a, b) => {
-        if(a.latest.time < b.latest.time){
+      return groups.sort((a, b) => {
+        if(!a.latest){
+          return 1;
+        }else if(!b.latest){
+          return -1;
+        }else if(a.latest.date < b.latest.date){
           return -1
         }else{
           return 1;
@@ -58,14 +46,24 @@ class Chat extends Component {
       })
 
     }else{
-      return mappedGroups;
+      return groups;
     }
+  }
+
+  formatDate(d){
+    let date = moment(d);
+    // let isToday = date.isSame(new Date(), "day");
+    // if(isToday){
+    //   return date.format("")
+    // }
+    return date.calendar();
   }
 
   setGroup(g) {
     this.props.resetMessages();
-    this.setState({ currentGroup: g })
-    this.state.socket.emit('join', g );
+    this.setState({ currentGroup: g });
+    this.state.socket.emit('join', g._id );
+    this.props.getMessages(g._id);
   }
 
   changeMode(mode) {
@@ -83,7 +81,7 @@ class Chat extends Component {
     const { user } = this.props;
     if (currentMsg !== '' && event.key === 'Enter') {
       const data = {
-        text: currentMsg,
+        content: currentMsg,
         author: user,
         date: new Date(),
       };
@@ -110,15 +108,15 @@ class Chat extends Component {
           </div>
 
           {this.sortGroups(groups).map((g, i) => (
-            <div className={"group" + (g.name === currentGroup ? " group-active" : "")} key={i} onClick={() => this.setGroup(g.name)}>
+            <div className={"group" + (g._id === currentGroup._id ? " group-active" : "")} key={i} onClick={() => this.setGroup(g)}>
               <div className="circle">
                 <img src={`https://robohash.org/${encodeURIComponent(g.name)}.png`} alt="" />
               </div>
               <div className="group-content">
                 <h3 className="is-size-4">{g.name}</h3>
-                <h4 className="is-size-6">{g.latest.text}</h4>
+                <h4 className="is-size-6">{g.latest ? g.latest.content : ""}</h4>
               </div>
-              <h4 className="group-time">{g.latest.date}</h4>              
+              <h4 className="group-time">{g.latest ? g.latest.date : ""}</h4>              
             </div>
           ))}
         </div>
@@ -145,9 +143,9 @@ class Chat extends Component {
                     className="chat-message-wrapper"
                     style={{ alignItems: align }}
                   >
-                    <div className="chat-message">{m.text}</div>
+                    <div className="chat-message">{m.content}</div>
                     <span className="chat-subtitle" style={margin}>
-                      {author}
+                      {author == 'me' ? '' : author + " : "} {this.formatDate(m.date)}
                     </span>
                   </div>
                 );
@@ -183,6 +181,6 @@ const mapStateToProps = (state) => {
   return { groups, messages, user };
 };
 
-const mapDispatchToProps = (dispatch) => bindActionCreators({ addMessage, resetMessages }, dispatch);
+const mapDispatchToProps = (dispatch) => bindActionCreators({ addMessage, resetMessages, getMessages }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(Chat);

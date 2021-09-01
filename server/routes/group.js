@@ -36,7 +36,7 @@ router.post('/create', requireAuth, async (req, res) => {
 
     }, []);
 
-    const group = Group({
+    const group = new Group({
         name,
         members,
         owner: req.user,
@@ -61,8 +61,6 @@ router.post('/join', requireAuth, async (req, res) => {
     if(!group){
         return resError(res, 'Join Group', { message: 'Group does not exist' })
     }
-
-    console.log(group)
 
     // check if user is already in group
     if (group.members.includes(req.user)) {

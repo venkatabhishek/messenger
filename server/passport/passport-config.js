@@ -7,7 +7,7 @@ const mongoose = require('mongoose');
 const Strategies = require('./strategies');
 const { User } = require('../database/schemas');
 
-module.exports = (app) => {
+module.exports = (app, io) => {
   const sessionConfig = {
     store: new MongoStore({
       mongooseConnection: mongoose.connection,
@@ -19,7 +19,13 @@ module.exports = (app) => {
     saveUninitialized: false,
   };
 
-  app.use(session(sessionConfig));
+  const sessionMiddleware = session(sessionConfig);
+
+  io.use((socket, next) => {
+    sessionMiddleware(socket.request, socket.request.res || {}, next);
+  });
+
+  app.use(sessionMiddleware);
   app.use(passport.initialize());
   app.use(passport.session());
 
