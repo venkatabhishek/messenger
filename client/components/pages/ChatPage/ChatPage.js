@@ -24,7 +24,7 @@ class Chat extends Component {
     this.state.socket = ioclient('http://localhost:3000');
 
     this.state.socket.on('msg', (data) => {
-      this.props.addMessage(data, data.author);
+      this.props.addMessage(data);
     });
   }
 
@@ -145,7 +145,7 @@ class Chat extends Component {
                   >
                     <div className="chat-message">{m.content}</div>
                     <span className="chat-subtitle" style={margin}>
-                      {author == 'me' ? '' : author + " : "} {this.formatDate(m.date)}
+                      {author == 'me' ? '' : author + ": "} {this.formatDate(m.date)}
                     </span>
                   </div>
                 );

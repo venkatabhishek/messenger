@@ -9,7 +9,6 @@ export const getMessages = (groupId) => (dispatch) =>
     apiGetMessages(groupId)
         .then((res) => {
             const { body } = res;
-            console.log(body)
 
             for (let message of body) {
                 dispatch(addMessage(message));
