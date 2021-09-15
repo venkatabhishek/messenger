@@ -6,7 +6,6 @@ module.exports = (io) => {
 
 
     socket.on('join', (room) => {
-      console.log(room)
       socket.join(room);
     })
 

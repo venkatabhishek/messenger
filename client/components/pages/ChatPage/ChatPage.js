@@ -52,10 +52,10 @@ class Chat extends Component {
 
   formatDate(d){
     let date = moment(d);
-    // let isToday = date.isSame(new Date(), "day");
-    // if(isToday){
-    //   return date.format("")
-    // }
+    let isToday = date.isSame(new Date(), "day");
+    if(isToday){
+      return date.format("h:mm a")
+    }
     return date.calendar();
   }
 
@@ -114,9 +114,9 @@ class Chat extends Component {
               </div>
               <div className="group-content">
                 <h3 className="is-size-4">{g.name}</h3>
-                <h4 className="is-size-6">{g.latest ? g.latest.content : ""}</h4>
+                <h4 className="is-size-6">{g.latest ? `${g.latest.author.username}: ${g.latest.content}` : ""}</h4>
               </div>
-              <h4 className="group-time">{g.latest ? g.latest.date : ""}</h4>              
+              <h4 className="group-time">{g.latest ? this.formatDate(g.latest.date) : ""}</h4>              
             </div>
           ))}
         </div>

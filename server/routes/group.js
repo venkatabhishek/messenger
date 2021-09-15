@@ -1,6 +1,6 @@
 const express = require('express');
 const { requireAuth, resError } = require('./middleware');
-const { Group, User } = require('../database/schemas');
+const { Group, User, Message } = require('../database/schemas');
 
 const router = express.Router();
 
@@ -15,7 +15,17 @@ router.get('/all', requireAuth, (req, res) => {
     }, (err, groups) => {
         if(err) console.log(err)
 
-        res.send(groups)
+        groups = groups.map(async group => {
+            let message = await Message.findOne({ group }).populate('author').sort({date: -1}).exec();
+            return { ...group.toObject(), latest: message };
+        })
+
+        Promise.all(groups).then(groups => {
+            res.send(groups)
+        }).catch(e => {
+            // console.log(e);
+            res.send([])
+        })
     })
 
 })
