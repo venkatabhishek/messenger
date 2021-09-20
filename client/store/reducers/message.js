@@ -7,7 +7,7 @@ export default function messages(state = [], action) {
       // compress messages locally
       if (state.length >= 1) {
         const last = state[state.length - 1];
-        if (action.msg.author && last.author._id === action.msg.author._id) {
+        if (last.author._id === (action.msg.author._id || action.msg.author.id)) {
           last.content += `\n${action.msg.content}`;
           last.date = action.msg.date;
 

@@ -44,4 +44,12 @@ const postMessage = async (data, userId) => {
 
 }
 
-module.exports = { message: router, postMessage };
+
+const findUser = async (userId) => {
+
+    return await User.findById(userId);
+
+}
+
+
+module.exports = { message: router, postMessage, findUser };

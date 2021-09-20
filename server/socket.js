@@ -1,4 +1,4 @@
-const { postMessage } = require('./routes/message');
+const { postMessage, findUser } = require('./routes/message');
 
 module.exports = (io) => {
   
@@ -18,6 +18,15 @@ module.exports = (io) => {
         .catch((err) => {
           console.log(err);
         })
+    })
+
+    socket.on('typing', ({ room }) => {
+
+      findUser(socket.request.session.passport.user)
+        .then((user) => {
+          socket.to(room._id).emit('typing', user)
+        })
+
     })
 
   });

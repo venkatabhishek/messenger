@@ -17,6 +17,8 @@ class Chat extends Component {
       currentGroup: '',
       groupMode: 'all', // 'all', 'new', etc.
       socket: null,
+      isTyping: new Set(),
+      typingTimer: {},
     };
   }
 
@@ -26,6 +28,42 @@ class Chat extends Component {
     this.state.socket.on('msg', (data) => {
       this.props.addMessage(data);
     });
+
+    this.state.socket.on('typing', (user) => {
+
+      let { username } = user;
+
+      let { isTyping, typingTimer } = this.state;
+      
+      this.setState({ isTyping: isTyping.add(username) });
+
+      if(username in typingTimer){
+        window.clearTimeout(typingTimer[username]);
+      }
+
+      let context = this;
+
+      typingTimer[username] = window.setTimeout(() => {
+        
+        context.state.typingTimer[username] = null;
+        context.state.isTyping.delete(username)
+
+        context.setState(context.state)
+
+      }, 2500)
+
+      this.setState({ typingTimer })
+
+    })
+
+  }
+
+  componentDidUpdate(){
+    let { groups } = this.props;
+    let { currentGroup } = this.state;
+    if(groups.length > 0 && currentGroup == ''){
+      this.setGroup(groups[0])
+    }
   }
 
   // assumes each group's messages are sorted
@@ -53,10 +91,13 @@ class Chat extends Component {
   formatDate(d){
     let date = moment(d);
     let isToday = date.isSame(new Date(), "day");
+    let isYear = date.isSame(new Date(), "year");
     if(isToday){
       return date.format("h:mm a")
+    }else if(isYear){
+      return date.format("MMM. Do")
     }
-    return date.calendar();
+    return date.format("dd/MM/YY");
   }
 
   setGroup(g) {
@@ -79,6 +120,8 @@ class Chat extends Component {
   handleKeyDown = (event) => {
     const { currentMsg, currentGroup, socket } = this.state;
     const { user } = this.props;
+
+    // message socket
     if (currentMsg !== '' && event.key === 'Enter') {
       const data = {
         content: currentMsg,
@@ -86,15 +129,27 @@ class Chat extends Component {
         date: new Date(),
       };
 
-      this.props.addMessage(data, user);
+      this.props.addMessage(data);
       this.setState({ currentMsg: '' });
 
       socket.emit('msg', {room: currentGroup, msg: data});
     }
+
+    // typing socket
+    socket.emit('typing', {room: currentGroup})
   };
 
+  
+  // shortCut = (e) => {
+  //   let { groups } = this.props;
+  //   if(e.ctrlKey && e.keyCode == '1'.charCodeAt(0)){
+  //     e.preventDefault();
+  //     this.setGroup(groups[0])
+  //   }
+  // }
+
   render() {
-    const { currentMsg, currentGroup, groupMode } = this.state;
+    const { currentMsg, currentGroup, groupMode, isTyping, t } = this.state;
     const { groups, messages, user } = this.props;
 
     return (
@@ -150,6 +205,11 @@ class Chat extends Component {
                   </div>
                 );
               })}
+              {isTyping.size != 0 && 
+              (<div className="chat-message" style={{marginTop: "15px"}}>
+                {Array.from(isTyping).join(', ')} {isTyping.size == 1 ? "is" : "are"} typing...
+              </div>
+              )}
             </div>
 
             <input
@@ -157,6 +217,7 @@ class Chat extends Component {
               value={currentMsg}
               onChange={this.onChange}
               onKeyDown={this.handleKeyDown}
+              autoFocus
               placeholder="Type your message..."
             />
           </>
