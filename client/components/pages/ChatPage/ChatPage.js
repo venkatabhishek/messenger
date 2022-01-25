@@ -13,6 +13,7 @@ class Chat extends Component {
     super(props);
 
     this.state = {
+      chatbox: React.createRef(),
       currentMsg: '',
       currentGroup: '',
       groupMode: 'all', // 'all', 'new', etc.
@@ -20,12 +21,19 @@ class Chat extends Component {
       isTyping: new Set(),
       typingTimer: {},
     };
+
+    this.chatbox = React.createRef();
+  }
+
+  scrollToBottom () {
+    this.chatbox.scrollIntoView();
   }
 
   componentDidMount() {
     this.state.socket = ioclient('http://localhost:3000');
 
     this.state.socket.on('msg', (data) => {
+      console.log("external message", data)
       this.props.addMessage(data);
     });
 
@@ -54,8 +62,11 @@ class Chat extends Component {
 
       this.setState({ typingTimer })
 
-    })
+    });
 
+    if(this.state.currentGroup != ''){
+      this.scrollToBottom();      
+    }
   }
 
   componentDidUpdate(){
@@ -64,6 +75,11 @@ class Chat extends Component {
     if(groups.length > 0 && currentGroup == ''){
       this.setGroup(groups[0])
     }
+
+    if(currentGroup != ''){
+      this.scrollToBottom();      
+    }
+
   }
 
   // assumes each group's messages are sorted
@@ -118,7 +134,7 @@ class Chat extends Component {
   };
 
   handleKeyDown = (event) => {
-    const { currentMsg, currentGroup, socket } = this.state;
+    const { chatbox, currentMsg, currentGroup, socket } = this.state;
     const { user } = this.props;
 
     // message socket
@@ -129,10 +145,11 @@ class Chat extends Component {
         date: new Date(),
       };
 
-      this.props.addMessage(data);
+      // this.props.addMessage(data);
+      socket.emit('msg', {room: currentGroup, msg: data});
       this.setState({ currentMsg: '' });
 
-      socket.emit('msg', {room: currentGroup, msg: data});
+
     }
 
     // typing socket
@@ -149,7 +166,7 @@ class Chat extends Component {
   // }
 
   render() {
-    const { currentMsg, currentGroup, groupMode, isTyping, t } = this.state;
+    const { chatbox, currentMsg, currentGroup, groupMode, isTyping, t } = this.state;
     const { groups, messages, user } = this.props;
 
     return (
@@ -187,6 +204,7 @@ class Chat extends Component {
             <>
               <div
               className="chat-box"
+              ref={chatbox}
               >
               {messages.map((m, i) => {
                 const author = m.author.username === user.username ? 'me' : m.author.username;
@@ -199,9 +217,11 @@ class Chat extends Component {
                     style={{ alignItems: align }}
                   >
                     <div className="chat-message">{m.content}</div>
+                  { ( i == messages.length-1 || m.author.username != messages[i+1].author.username ) &&
                     <span className="chat-subtitle" style={margin}>
                       {author == 'me' ? '' : author + ": "} {this.formatDate(m.date)}
                     </span>
+                  }
                   </div>
                 );
               })}
@@ -210,6 +230,7 @@ class Chat extends Component {
                 {Array.from(isTyping).join(', ')} {isTyping.size == 1 ? "is" : "are"} typing...
               </div>
               )}
+              <div ref={(el) => { this.chatbox = el; }}></div>
             </div>
 
             <input

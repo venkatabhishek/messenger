@@ -25,6 +25,7 @@ app.use(express.json());
 configPassport(app, io);
 require('./socket')(io);
 
+// app
 app.use('/', routes);
 
 server.listen(port, () => console.log(`Server is listening on port ${port}`));

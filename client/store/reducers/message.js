@@ -5,17 +5,17 @@ export default function messages(state = [], action) {
   switch (action.type) {
     case ADD_MESSAGE:
       // compress messages locally
-      if (state.length >= 1) {
-        const last = state[state.length - 1];
-        if (last.author._id === (action.msg.author._id || action.msg.author.id)) {
-          last.content += `\n${action.msg.content}`;
-          last.date = action.msg.date;
+      // if (state.length >= 1) {
+      //   const last = state[state.length - 1];
+      //   if (last.author._id === (action.msg.author._id || action.msg.author.id)) {
+      //     last.content += `<br />${action.msg.content}`;
+      //     last.date = action.msg.date;
 
-          return update(state, {
-            [state.length - 1]: { $set: last },
-          });
-        }
-      }
+      //     return update(state, {
+      //       [state.length - 1]: { $set: last },
+      //     });
+      //   }
+      // }
 
       return update(state, { $push: [action.msg] });
 

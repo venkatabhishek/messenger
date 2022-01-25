@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import { push } from 'connected-react-router';
 import { useDispatch } from 'react-redux';
 import { attemptLogout } from '_thunks/auth';
+import { clearGroups } from '_actions/group';
 import R from 'ramda';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser } from '@fortawesome/free-solid-svg-icons/faUser';
@@ -19,6 +20,7 @@ export default function Navigation(props) {
 
   const logout = () => {
     dispatch(attemptLogout()).catch(R.identity);
+    dispatch(clearGroups());
   };
 
   return (

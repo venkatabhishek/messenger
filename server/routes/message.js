@@ -15,7 +15,6 @@ router.get('/group/:groupId', async (req, res) => {
     }
 
     Message.find({ group }).populate('author').sort({ date: 1 }).exec((err, messages) => {
-
         res.send(messages)
 
     });

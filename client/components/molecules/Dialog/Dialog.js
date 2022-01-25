@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import Dialog from '@material-ui/core/Dialog';
 import { createGroup as createGroupThunk, joinGroup as joinGroupThunk } from '_thunks/group';
 
+
 export default function GroupDialog(props) {
   const { onClose, open } = props;
   const [view, setView] = useState('');

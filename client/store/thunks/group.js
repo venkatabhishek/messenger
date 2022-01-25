@@ -10,8 +10,6 @@ export const getGroups = () => (dispatch) =>
     .then((res) => {
       const { body } = res;
 
-      console.log(body)
-
       for (let group of body) {
         dispatch(addGroup(group));
       }

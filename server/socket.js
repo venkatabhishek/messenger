@@ -11,9 +11,10 @@ module.exports = (io) => {
 
     socket.on('msg', ({ room, msg }) => {
 
+
       postMessage({ group: room, ...msg }, socket.request.session.passport.user)
         .then((msg) => {
-          socket.to(room._id).emit('msg', msg)
+          io.in(room._id).emit('msg', msg)
         })
         .catch((err) => {
           console.log(err);
