@@ -7,6 +7,11 @@ import { addMessage, resetMessages } from '_actions/message';
 import { getMessages } from '_thunks/message';
 import moment from 'moment'
 
+import InfoDialog from '_molecules/InfoDialog';
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faInfoCircle } from '@fortawesome/free-solid-svg-icons/faInfoCircle';
+
 
 class Chat extends Component {
   constructor(props) {
@@ -20,6 +25,7 @@ class Chat extends Component {
       socket: null,
       isTyping: new Set(),
       typingTimer: {},
+      open: false
     };
 
     this.chatbox = React.createRef();
@@ -156,6 +162,12 @@ class Chat extends Component {
     socket.emit('typing', {room: currentGroup})
   };
 
+
+  toggleInfo(status){
+    this.setState({
+      open: status
+    })
+  }
   
   // shortCut = (e) => {
   //   let { groups } = this.props;
@@ -166,7 +178,7 @@ class Chat extends Component {
   // }
 
   render() {
-    const { chatbox, currentMsg, currentGroup, groupMode, isTyping, t } = this.state;
+    const { chatbox, currentMsg, currentGroup, groupMode, isTyping, open, t } = this.state;
     const { groups, messages, user } = this.props;
 
     return (
@@ -202,10 +214,20 @@ class Chat extends Component {
           {currentGroup !== '' && 
           (
             <>
+              <div className="top-bar"> 
+
+                <div className="info" onClick={() => this.toggleInfo(true)}>
+                  <FontAwesomeIcon icon={faInfoCircle} size="2x" />
+                </div>
+
+              </div>
               <div
               className="chat-box"
               ref={chatbox}
               >
+
+             
+
               {messages.map((m, i) => {
                 const author = m.author.username === user.username ? 'me' : m.author.username;
                 const align = author === 'me' ? 'flex-end' : 'flex-start';
@@ -245,6 +267,8 @@ class Chat extends Component {
           )}
 
         </div>
+
+        <InfoDialog open={open} onClose={() => this.toggleInfo(false)} group={currentGroup}/>
       </div>
     );
   }

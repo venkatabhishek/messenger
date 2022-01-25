@@ -1,4 +1,6 @@
 $padded: 90%;
+$chat-padding-lr: 35px;
+$chat-padding-tb: 40px;
 
 .chat-page{
     position: fixed;
@@ -7,6 +9,7 @@ $padded: 90%;
     display: flex;
     align-items: center;
     background-color: $bg;
+    overflow: hidden;
 }
 
 .groups{
@@ -24,11 +27,41 @@ $padded: 90%;
     flex-direction: column;
 }
 
+.top-bar{
+    height: 20%;
+    width: 100%;
+    background-color: white;
+    display: flex;
+    justify-content: flex-end;
+    padding: $chat-padding-lr $chat-padding-tb;
+}
+
+$info-size: 75px;
+
+.info{
+    height: $info-size;
+    width: $info-size;
+    border-radius: 10px;
+    background-color: #f0f0f0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.info > svg{
+    color: rgba(0, 0, 0, 0.39);;
+}
+
 .chat-box{
     width: 100%;
     height: 100%;
-    padding: 20px 50px;
+    padding: $chat-padding-lr $chat-padding-tb;
     overflow-y: auto;
+}
+
+.chat-box::-webkit-scrollbar {
+    display: none;
 }
 
 .chat-message-wrapper{
