@@ -4,7 +4,7 @@ const { Group, User, Message } = require('../database/schemas');
 
 const router = express.Router();
 
-// get all of a users groups
+// get all of a user's groups
 router.get('/all', requireAuth, (req, res) => {
 
     Group.find({
@@ -12,7 +12,7 @@ router.get('/all', requireAuth, (req, res) => {
             { members: req.user },
             { owner: req.user }
         ]
-    }, (err, groups) => {
+    }).populate('members', '-password').exec((err, groups) => {
         if(err) console.log(err)
 
         groups = groups.map(async group => {

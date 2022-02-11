@@ -53,6 +53,26 @@ $info-size: 75px;
     color: rgba(0, 0, 0, 0.39);;
 }
 
+.info-users{
+    margin-top: 20px;
+    width: 100%;
+}
+
+.info-join{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.info-user{
+    height: 6rem;
+    margin: 10px 0px;
+    border: 1px solid black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .chat-box{
     width: 100%;
     height: 100%;
