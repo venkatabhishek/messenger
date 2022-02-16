@@ -22,6 +22,12 @@ const userSchema = new Schema(
     bio: { type: String, maxlength: 240 },
     created_at: { type: Date, default: Date.now, immutable: true },
     updated_at: { type: Date },
+    friends: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+      },
+    ],
   },
   { versionKey: false },
 );

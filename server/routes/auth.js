@@ -55,6 +55,7 @@ router.post('/login', (req, res, next) => {
       if (err) {
         res.status(401).send({ message: 'Login failed', err });
       }
+
       res.send({
         message: 'Logged in successfully',
         user: user.hidePassword(),

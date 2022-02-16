@@ -268,7 +268,7 @@ class Chat extends Component {
 
         </div>
 
-        <InfoDialog open={open} onClose={() => this.toggleInfo(false)} group={currentGroup}/>
+        <InfoDialog open={open} onClose={() => this.toggleInfo(false)} group={currentGroup} user={user} />
       </div>
     );
   }

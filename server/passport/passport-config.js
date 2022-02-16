@@ -33,6 +33,7 @@ module.exports = (app, io) => {
 
   passport.deserializeUser((id, done) =>
     User.findById({ _id: id })
+      .populate('friends')
       .then((user) => done(null, user))
       .catch((err) => console.warn(`err at deserialize: ${err}`)),
   );

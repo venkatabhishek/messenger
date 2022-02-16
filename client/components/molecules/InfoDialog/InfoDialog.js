@@ -6,7 +6,9 @@ import Dialog from '@material-ui/core/Dialog';
 
 
 export default function GroupDialog(props) {
-    const { open, onClose, group } = props;
+    const { open, onClose, group, user } = props;
+    const [copied, setcopied] = useState(false);
+    
 
     return (
         <Dialog
@@ -21,9 +23,18 @@ export default function GroupDialog(props) {
 
                 <div className="info-users">
 
-                    {group.members && group.members.map((user) => (
-                        <div className="info-user">
-                            <h4>{user.username}</h4>
+                    {group.members && group.members.map((u) => (
+                        <div className="info-user info-block">
+                            <div className="info-user-inner">
+                                <div className="circle" style={{marginRight: 20}}>
+                                    <img src={`https://robohash.org/${encodeURIComponent(u.username)}.png`} alt="" />
+                                </div>
+                                <h4 className="info-user-name">{u.username}</h4>
+                            </div>
+                            <div className="info-user-inner">
+                                {user.id == group.owner && <button>Remove</button>}
+                            </div>
+                            
                         </div>
                         
 
@@ -33,11 +44,13 @@ export default function GroupDialog(props) {
 
                 <h1>Join Code</h1>
                 <div className="info-join">
-                    <div className="info-user" style={{width: "75%"}}>
+                    <div className="info-block info-user-name info-code" style={{width: "75%"}}>
                         {group._id}                    
                     </div>    
-                    <div className="info-user" style={{width: "20%"}}>
-                        Copy
+                    <div className="info-block info-user-name info-code" 
+                    style={{width: "20%", cursor: "pointer"}}
+                    onClick={() => {setcopied(true); navigator.clipboard.writeText(group._id)}}>
+                        {copied ? "Copied" : "Copy"}
                     </div>
                     
                 </div>
